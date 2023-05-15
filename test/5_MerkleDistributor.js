@@ -23,21 +23,20 @@ describe("Token contract", function () {
     const [owner, addr1, addr2, signer1, signer2, signer3, signer4, signer5, signer6, signer7, signer8] = await ethers.getSigners();
 
     // mock rewards
-    const walletAddresses = [signer1, signer2, signer3, signer4, signer5, signer6, signer7, signer8].map((s) => ([s.address, 100]));
+    const walletAddresses = [signer1, signer2, signer3, signer4, signer5, signer6, signer7, signer8].map((s) => ([s.address, 500]));
 
     console.log(walletAddresses);
     const tree = StandardMerkleTree.of(walletAddresses, ["address", "uint256"]);
     console.log('Merkle Root:', tree.root);
 
     const MerkleDistributorContract = await ethers.getContractFactory('MerkleDistributor');
-
     const AnotherWorldGGContract = await ethers.getContractFactory("GGMock");
     
     const MerkleDistributor = await MerkleDistributorContract.deploy();
+    console.log("\tGas(MerkleDistributor-deployment):\t", await getLastTxGas());
 
     const AnotherWorldGG = await AnotherWorldGGContract.deploy();
-
-    console.log("\tGas(AnotherWorldGG-deployment):\t", await getLastTxGas());
+    console.log("\tGas(AnotherWorldGG-deployment):\t\t", await getLastTxGas());
 
     await AnotherWorldGG.deployed();
 
@@ -69,9 +68,9 @@ describe("Token contract", function () {
         deployTokenFixture
       );
       // Transfer 50 tokens from owner to addr1
-      await AnotherWorldGG.transfer(MerkleDistributor.address, 500);
-
-      expect(await AnotherWorldGG.balanceOf(signer1.address)).to.be.equal(0)
+      await AnotherWorldGG.transfer(MerkleDistributor.address, 5000);
+      expect(await AnotherWorldGG.balanceOf(MerkleDistributor.address)).to.be.equal(5000);
+      expect(await AnotherWorldGG.balanceOf(signer1.address)).to.be.equal(0);
       let addressProof = null;
       for (const [i, v] of tree.entries()) {
         if (v[0] === signer1.address) {
@@ -83,18 +82,18 @@ describe("Token contract", function () {
       }
       //console.log("proof: ", addressProof);
 
-      await MerkleDistributor.connect(signer1).claim(100, addressProof);
+      await MerkleDistributor.connect(signer1).claim(500, addressProof);
       console.log("\tGas(claim):\t", await getLastTxGas());
 
-      expect(await AnotherWorldGG.balanceOf(signer1.address)).to.be.equal(100)
+      expect(await AnotherWorldGG.balanceOf(signer1.address)).to.be.equal(500);
 
       expect(
-        MerkleDistributor.connect(signer1).claim(addressProof)
+        MerkleDistributor.connect(signer1).claim(500, addressProof)
         ).to.be.revertedWith(
-          'MerkleDistributor: Drop already claimed.'
-        )
+          'already claimed'
+        );
 
-      expect(await AnotherWorldGG.balanceOf(signer1.address)).to.be.equal(100)
+      expect(await AnotherWorldGG.balanceOf(signer1.address)).to.be.equal(500);
 
     })
 
