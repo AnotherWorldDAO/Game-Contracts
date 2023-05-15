@@ -35,8 +35,8 @@ contract MerkleDistributor is Ownable {
         virtual
     {
         require(!addressesClaimed[msg.sender], "already claimed");
-        bytes32 node = keccak256(abi.encodePacked(msg.sender, amount));
-        require(!MerkleProof.verify(merkleProof, merkleRoot, node), "invalid proof");
+        bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(msg.sender, amount))));
+        require(MerkleProof.verify(merkleProof, merkleRoot, leaf), "invalid proof");
         addressesClaimed[msg.sender] = true;
         IERC20(token).safeTransfer(msg.sender, amount);
         emit Claimed(msg.sender, amount);
