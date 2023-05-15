@@ -3,6 +3,8 @@
 //
 // GGMock.sol
 //
+// This is a mock contract that is subjected to be updated.
+//
 
 pragma solidity 0.8.17;
 
