@@ -38,7 +38,7 @@ describe("Token contract", function () {
 
     const MerkleDistributorContract = await ethers.getContractFactory('MerkleDistributor');
 
-    const AnotherWorldGGContract = await ethers.getContractFactory("GGL1");
+    const AnotherWorldGGContract = await ethers.getContractFactory("GGMock");
     
     const MerkleDistributor = await MerkleDistributorContract.deploy();
 
