@@ -4,8 +4,7 @@
 //
 // This is a mock contract that is subjected to be updated.
 //
-// This is Another Treasure NFT colelction (ERC-721A on OP mainnet)
-// The game server owns vaultOperator wallet can airdrop to players.
+// This is Another Treasure NFT colelction (ERC-721A on OP mainnet) for unique ownership items such as keys, deeds, ads...
 //
 
 pragma solidity 0.8.17;

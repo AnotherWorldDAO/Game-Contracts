@@ -1,4 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+//
+// MerkleDistributor.sol
+//
+// distribute ERC-20 tokens based on Merkle proofs
+//
+
 pragma solidity =0.8.17;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
