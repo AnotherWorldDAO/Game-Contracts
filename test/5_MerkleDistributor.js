@@ -46,7 +46,7 @@ describe("Token contract", function () {
     await MerkleDistributor.connect(owner).updateMerkleRoot(tree.root);
 
     // Fixtures can return anything you consider useful for your tests
-    return { AnotherWorldGGContract, AnotherWorldGG, owner, addr1, addr2, MerkleDistributor, tree, signer1, signer2 };
+    return { AnotherWorldGGContract, AnotherWorldGG, owner, addr1, addr2, MerkleDistributor, tree, signer1, signer2, signer7, signer8 };
   }
 
   // You can nest describe calls to create subsections.
@@ -60,58 +60,6 @@ describe("Token contract", function () {
       const { AnotherWorldGG, owner } = await loadFixture(deployTokenFixture);
       const ownerBalance = await AnotherWorldGG.balanceOf(owner.address);
       expect(await AnotherWorldGG.totalSupply()).to.equal(ownerBalance);
-    });
-  });
-
-  describe("Transactions", function () {
-    it("Should transfer tokens between accounts", async function () {
-      const { AnotherWorldGG, owner, addr1, addr2 } = await loadFixture(
-        deployTokenFixture
-      );
-      await AnotherWorldGG.connect(owner).transfer(addr1.address, AnotherWorldGG.balanceOf(owner.address));
-      console.log("\towner balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(owner.address)));
-      console.log("\taddr1 balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(addr1.address)));
-      console.log("\taddr2 balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(addr2.address)));
-
-      console.log("\tFoundersAddress balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._FoundersAddress())));
-      console.log("\tOperationAddress balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._OperationAddress())));
-      console.log("\tDAOAddress balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._DAOAddress())));
-      console.log("\tEcosystemAddress balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._EcosystemAddress())));
-    });
-
-    it("Should emit Transfer events", async function () {
-      const { AnotherWorldGG, owner, addr1, addr2 } = await loadFixture(
-        deployTokenFixture
-      );
-
-      // Transfer 50 tokens from owner to addr1
-      await expect(AnotherWorldGG.transfer(addr1.address, 50))
-        .to.emit(AnotherWorldGG, "Transfer")
-        .withArgs(owner.address, addr1.address, 50);
-
-      // Transfer 50 tokens from addr1 to addr2
-      // We use .connect(signer) to send a transaction from another account
-      await expect(AnotherWorldGG.connect(addr1).transfer(addr2.address, 50))
-        .to.emit(AnotherWorldGG, "Transfer")
-        .withArgs(addr1.address, addr2.address, 50);
-    });
-
-    it("Should fail if sender doesn't have enough tokens", async function () {
-      const { AnotherWorldGG, owner, addr1 } = await loadFixture(
-        deployTokenFixture
-      );
-      const initialOwnerBalance = await AnotherWorldGG.balanceOf(owner.address);
-
-      // Try to send 1 token from addr1 (0 tokens) to owner.
-      // `require` will evaluate false and revert the transaction.
-      await expect(
-        AnotherWorldGG.connect(addr1).transfer(owner.address, 1)
-      ).to.be.revertedWith("ERC20: transfer amount exceeds balance");
-
-      // Owner balance shouldn't have changed.
-      expect(await AnotherWorldGG.balanceOf(owner.address)).to.equal(
-        initialOwnerBalance
-      );
     });
   });
 

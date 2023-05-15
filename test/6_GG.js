@@ -20,7 +20,7 @@ describe("Token contract", function () {
   async function deployTokenFixture() {
 
     const GGContract = await ethers.getContractFactory("GGMock");
-    const [owner, addr1, addr2] = await ethers.getSigners();
+    const [owner, addr1, addr2, signer1, signer2, signer3, signer4, signer5, signer6, signer7, signer8] = await ethers.getSigners();
 
     
     const AnotherWorldGG = await GGContract.deploy();
@@ -30,7 +30,7 @@ describe("Token contract", function () {
     await AnotherWorldGG.deployed();
 
     // Fixtures can return anything you consider useful for your tests
-    return { GGContract, AnotherWorldGG, owner, addr1, addr2 };
+    return { GGContract, AnotherWorldGG, owner, addr1, addr2, signer7, signer8 };
   }
 
   // You can nest describe calls to create subsections.
@@ -49,16 +49,14 @@ describe("Token contract", function () {
 
   describe("Transactions", function () {
     it("Should transfer tokens between accounts", async function () {
-      const { AnotherWorldGG, owner, addr1, addr2 } = await loadFixture(
+      const { AnotherWorldGG, owner, signer7, signer8} = await loadFixture(
         deployTokenFixture
       );
-
-      await AnotherWorldGG.connect(owner).transfer(addr1.address, AnotherWorldGG.balanceOf(owner.address));
+      await AnotherWorldGG.connect(owner).transfer(signer7.address, AnotherWorldGG.balanceOf(owner.address));
       console.log("\tGas(transfer):\t", await getLastTxGas());
-
       console.log("\towner balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(owner.address)));
-      console.log("\taddr1 balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(addr1.address)));
-      console.log("\taddr2 balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(addr2.address)));
+      console.log("\tsigner7 balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(signer7.address)));
+      console.log("\tsigner8 balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(signer8.address)));
 
       console.log("\tFoundersAddress balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._FoundersAddress())));
       console.log("\tOperationAddress balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._OperationAddress())));
@@ -75,13 +73,15 @@ describe("Token contract", function () {
       await expect(AnotherWorldGG.transfer(addr1.address, 50))
         .to.emit(AnotherWorldGG, "Transfer")
         .withArgs(owner.address, addr1.address, 50);
-      console.log("\tGas(Transfer):\t", await getLastTxGas());
+
+      console.log("\tGas(transfer):\t", await getLastTxGas());
 
       // Transfer 50 tokens from addr1 to addr2
       // We use .connect(signer) to send a transaction from another account
       await expect(AnotherWorldGG.connect(addr1).transfer(addr2.address, 50))
         .to.emit(AnotherWorldGG, "Transfer")
         .withArgs(addr1.address, addr2.address, 50);
+        console.log("\tGas(transfer):\t", await getLastTxGas());
     });
 
     it("Should fail if sender doesn't have enough tokens", async function () {
