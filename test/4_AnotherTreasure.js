@@ -24,7 +24,7 @@ describe("Another Treasure Contracts", function () {
 
     // season 1 contracts
     const TreasureFragmentsContract = await ethers.getContractFactory("TreasureFragments");
-    const AnotherTreasureOPContract = await ethers.getContractFactory("AnotherTreasure");
+    const AnotherTreasureOPContract = await ethers.getContractFactory("AnotherTreasureMock");
 
     // signers
     const [owner, player1, player2, serverVaultOperator] = await ethers.getSigners();

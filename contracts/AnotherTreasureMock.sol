@@ -1,24 +1,20 @@
 // SPDX-License-Identifier: MIT
 //
-// AnotherTreasure721A.sol
+// AnotherTreasureMock.sol
 //
-// This is a treasure vault (on OP mainnet) to manage erc1155 mint/transfer its 1155 items
-// The game server owns vaultServerOperator wallet can mint in-game items to players.
+// This is a mock contract that is subjected to be updated.
 //
-// deployment: 2158900 gas
-// mint: 
-// burn:
-// transfer: 
+// This is Another Treasure NFT colelction (ERC-721A on OP mainnet)
+// The game server owns vaultOperator wallet can airdrop to players.
 //
 
 pragma solidity 0.8.17;
 
-//import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "erc721a/contracts/ERC721A.sol";
 
-contract AnotherTreasure is ERC721A, Ownable {
+contract AnotherTreasureMock is ERC721A, Ownable {
 
     // receiving ETH from address
     event Received(address, uint256);
@@ -35,12 +31,9 @@ contract AnotherTreasure is ERC721A, Ownable {
     // vault operator is controlled by a game server
     address public vaultOperator;
 
-    // owner can lock vault operations
-    bool public operatorCanTransfer = true;
-
     address public forgeContractAddress; // can be forged from contract
 
-    constructor() ERC721A("TestBox", "TB") {
+    constructor() ERC721A("AnotherTreasure", "TREASURE") {
         vaultOperator = msg.sender;
     }
 
@@ -57,11 +50,6 @@ contract AnotherTreasure is ERC721A, Ownable {
     // owner can update vault operator
     function setVaultOperator(address newOperator) public onlyOwner {
         vaultOperator = newOperator;
-    }
-
-    // owner can one-way unlock transfer
-    function disableOperatorTransfer() external onlyOwner {
-        operatorCanTransfer = false;
     }
 
     // owner can update price
@@ -103,8 +91,7 @@ contract AnotherTreasure is ERC721A, Ownable {
     function airdrop(address account)
         public
     {
-        require(msg.sender == vaultOperator, "invalid operator"); // only vaultServerOperator can mint
-        require(operatorCanTransfer, "operator cannot transfer");
+        require(msg.sender == vaultOperator, "invalid operator"); // only vaultOperator can airdrop
         uint256 _index = currentIndex;
         require(_index < maxSupply, "supply limit");
 
@@ -123,14 +110,4 @@ contract AnotherTreasure is ERC721A, Ownable {
     function withdraw() external payable onlyOwner {
         require(payable(msg.sender).send(address(this).balance));
     }
-    
-    /*
-    function onERC721Received(
-        address, 
-        address, 
-        uint256, 
-        bytes calldata
-    )external override pure returns(bytes4) {
-        return bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
-    }*/
 }
