@@ -15,7 +15,7 @@ Treasure Fragments collection is Another World's official NFT (ERC-1155) collect
 
 ---
 
-## AnotherTreasure.sol
+## AnotherTreasureMock.sol
 This is a mock ERC-721 collection for forging Treasure Fragments into unique tokens on Optimism. TBD deployment date.
 
 ---
