@@ -52,16 +52,24 @@ describe("Token contract", function () {
       const { AnotherWorldGG, owner, signer7, signer8} = await loadFixture(
         deployTokenFixture
       );
-      await AnotherWorldGG.connect(owner).transfer(signer7.address, AnotherWorldGG.balanceOf(owner.address));
+      const transferAmount = await AnotherWorldGG.balanceOf(owner.address);
+      await AnotherWorldGG.connect(owner).transfer(signer7.address, transferAmount);
       console.log("\tGas(transfer):\t", await getLastTxGas());
       console.log("\towner balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(owner.address)));
       console.log("\tsigner7 balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(signer7.address)));
       console.log("\tsigner8 balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(signer8.address)));
 
       console.log("\tFoundersAddress balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._FoundersAddress())));
+      expect(Number(ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._FoundersAddress())))).to.equal(Number(ethers.utils.formatEther(transferAmount))/100000000 * Number(await AnotherWorldGG._RoyaltyOnTransfer()) * Number(await AnotherWorldGG._FoundersRoyalty()));
+
       console.log("\tOperationAddress balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._OperationAddress())));
+      expect(Number(ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._OperationAddress())))).to.equal(Number(ethers.utils.formatEther(transferAmount))/100000000 * Number(await AnotherWorldGG._RoyaltyOnTransfer()) * Number(await AnotherWorldGG._OperationRoyalty()));
+
       console.log("\tDAOAddress balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._DAOAddress())));
+      expect(Number(ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._DAOAddress())))).to.equal(Number(ethers.utils.formatEther(transferAmount))/100000000 * Number(await AnotherWorldGG._RoyaltyOnTransfer()) * Number(await AnotherWorldGG._DAORoyalty()));
+
       console.log("\tEcosystemAddress balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._EcosystemAddress())));
+      expect(Number(ethers.utils.formatEther(await AnotherWorldGG.balanceOf(await AnotherWorldGG._EcosystemAddress())))).to.equal(Number(ethers.utils.formatEther(transferAmount))/100000000 * Number(await AnotherWorldGG._RoyaltyOnTransfer()) * Number(await AnotherWorldGG._EcosystemRoyalty()));
     });
 
     it("Should emit Transfer events", async function () {
