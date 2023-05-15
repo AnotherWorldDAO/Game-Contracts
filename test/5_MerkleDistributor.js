@@ -1,7 +1,4 @@
-const { MerkleTree } = require('merkletreejs');
 const { StandardMerkleTree } = require("@openzeppelin/merkle-tree");
-const fs = require("fs");
-const KECCAK256 = require('web3-utils').sha3;
 const { expect } = require("chai");
 const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 
@@ -23,18 +20,14 @@ async function getLastTxGas(){
 describe("Token contract", function () {
   async function deployTokenFixture() {
 
-    //const [owner, addr1, addr2] = await ethers.getSigners();
     const [owner, addr1, addr2, signer1, signer2, signer3, signer4, signer5, signer6, signer7, signer8] = await ethers.getSigners();
 
+    // mock rewards
     const walletAddresses = [signer1, signer2, signer3, signer4, signer5, signer6, signer7, signer8].map((s) => ([s.address, 100]));
 
     console.log(walletAddresses);
     const tree = StandardMerkleTree.of(walletAddresses, ["address", "uint256"]);
     console.log('Merkle Root:', tree.root);
-    
-    // save to file
-    //fs.writeFileSync("tree.json", JSON.stringify(tree.dump()));
-    //const tree = StandardMerkleTree.load(JSON.parse(fs.readFileSync("tree.json")));
 
     const MerkleDistributorContract = await ethers.getContractFactory('MerkleDistributor');
 
@@ -135,14 +128,15 @@ describe("Token contract", function () {
       for (const [i, v] of tree.entries()) {
         if (v[0] === signer1.address) {
           const proof = tree.getProof(i);
-          console.log('Value:', v);
-          console.log('Proof:', proof);
+          //console.log('Value:', v);
+          //console.log('Proof:', proof);
           addressProof = proof;
         }
       }
-      console.log("proof: ", addressProof);
+      //console.log("proof: ", addressProof);
 
       await MerkleDistributor.connect(signer1).claim(100, addressProof);
+      console.log("\tGas(claim):\t", await getLastTxGas());
 
       expect(await AnotherWorldGG.balanceOf(signer1.address)).to.be.equal(100)
 
@@ -155,28 +149,6 @@ describe("Token contract", function () {
       expect(await AnotherWorldGG.balanceOf(signer1.address)).to.be.equal(100)
 
     })
-
-    /*
-    it('unsuccessful claim', async () => {
-      const generatedAddress = '0x4dE8dabfdc4D5A508F6FeA28C6f1B288bbdDc26e'
-      const proof2 = tree.getHexProof(KECCAK256(generatedAddress))
-
-      expect(
-          distributor.connect(signer1).claim(proof2)
-        ).to.be.revertedWith(
-          'MerkleDistributor: Invalid proof.'
-        )
-    })
-
-
-    it('emits a successful event', async () => {
-      const proof = tree.getHexProof(KECCAK256(signer1.address))
-
-      await expect(distributor.connect(signer1).claim(proof))
-        .to.emit(distributor, 'Claimed')
-        .withArgs(signer1.address, 500)
-    })
-    */
 
   })
 });

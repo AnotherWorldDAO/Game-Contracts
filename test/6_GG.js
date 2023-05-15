@@ -52,17 +52,9 @@ describe("Token contract", function () {
       const { AnotherWorldGG, owner, addr1, addr2 } = await loadFixture(
         deployTokenFixture
       );
-      // Transfer 50 tokens from owner to addr1
-      //await expect(
-        //await AnotherWorldGG.connect(owner).transfer(addr1.address, ethers.utils.parseUnits('200000', 18));
-        await AnotherWorldGG.connect(owner).transfer(addr1.address, AnotherWorldGG.balanceOf(owner.address));
-      //).to.changeTokenBalances(AnotherWorldGG, [owner, addr1], [-500000000000, 500000000000]);
 
-      // Transfer 50 tokens from addr1 to addr2
-      // We use .connect(signer) to send a transaction from another account
-      //await expect(
-      //  AnotherWorldGG.connect(addr1).transfer(addr2.address, 500000000000)
-      //).to.changeTokenBalances(AnotherWorldGG, [addr1, addr2], [-500000000000, 500000000000]);
+      await AnotherWorldGG.connect(owner).transfer(addr1.address, AnotherWorldGG.balanceOf(owner.address));
+      console.log("\tGas(transfer):\t", await getLastTxGas());
 
       console.log("\towner balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(owner.address)));
       console.log("\taddr1 balance:" + ethers.utils.formatEther(await AnotherWorldGG.balanceOf(addr1.address)));
@@ -83,6 +75,7 @@ describe("Token contract", function () {
       await expect(AnotherWorldGG.transfer(addr1.address, 50))
         .to.emit(AnotherWorldGG, "Transfer")
         .withArgs(owner.address, addr1.address, 50);
+      console.log("\tGas(Transfer):\t", await getLastTxGas());
 
       // Transfer 50 tokens from addr1 to addr2
       // We use .connect(signer) to send a transaction from another account
