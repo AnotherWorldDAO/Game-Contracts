@@ -2,7 +2,7 @@
 A digital world needs a digital economy. These Solidity smart contracts provide on-chain game utilities in [Another World](https://anotherworld.gg):
 
 
-- `TreasureFragments.sol` ([deployed on Optimism](https://optimistic.etherscan.io/address/0x56edafc97279c53a74c1c105abeebc79e0936c73)) - Treasure Fragments collection is Another World's official NFT (ERC-1155) collection on Optimism. Players _may_ receive airdrops from this collection when they acquire items in the game.
+- `TreasureFragments.sol` ([deployed on Optimism](https://optimistic.etherscan.io/address/0x56edafc97279c53a74c1c105abeebc79e0936c73), [OpenSea](https://opensea.io/collection/treasurefragments)) - Treasure Fragments collection is Another World's official NFT (ERC-1155) collection on Optimism. Players _may_ receive airdrops from this collection when they acquire items in the game.
 
 - `AnotherTreasureMock.sol` - This is a mock ERC-721 collection for forging Treasure Fragments into unique tokens on Optimism. TBD deployment date.
 
