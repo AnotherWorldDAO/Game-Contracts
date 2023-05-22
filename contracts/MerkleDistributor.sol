@@ -32,6 +32,7 @@ contract MerkleDistributor is Ownable {
     }
 
     function updateRewardToken(address token_) external onlyOwner {
+        require(token_ != address(0), "invalid token_");
         token = token_;
         emit RewardTokenUpdated(token, merkleRoot);
     }
