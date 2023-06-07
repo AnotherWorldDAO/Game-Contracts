@@ -12,6 +12,8 @@ A digital world needs a digital economy. These Solidity smart contracts provide 
 
 - `LedgerOfUserRecords.sol` ([deployed on SAGA](http://anotherworld-1681423864760549-1.sp1.sagaexplorer.io/address/0x7e8Ab2f3F61BEBB425712551Ffa9836bC7D4a92D)) - This contract is making per-user game state updates constantly from the game operator (i.e., a game server holds the operator wallet). This contract is deployed on extremely low gas fee chains like SAGA, AltLayer, or custom OP stack rollup chains.
 
+- `AnotherTreasureSAGA.sol` ([deployed on SAGA](http://anotherworld-1681423864760549-1.sp1.sagaexplorer.io/address/0x1160982721af95351A714a483275229cCa10Ee54)) - This contract manages in-game NFT item airdrops and burns. This contract is deployed on Another World's SAGA chainlet.
+
 - `AnotherWorldMetrics.sol` ([deployed on Gnosis](https://gnosisscan.io/address/0x1160982721af95351a714a483275229cca10ee54)) - This contract is to place off-chain metrics such as "Twitter followers" on a low-gas fee chain (such as Gnosis Chain), so that the Dune Analytics is able to index and populate related metrics on Another World's Dune [dashboard](https://dune.com/jackieleeeth/anotherworld).
 
 ## Quick Start
