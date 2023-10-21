@@ -4,7 +4,7 @@ A digital world needs a digital economy. These Solidity smart contracts provide 
 
 - `TreasureFragments.sol` ([deployed on Optimism](https://optimistic.etherscan.io/address/0x56edafc97279c53a74c1c105abeebc79e0936c73), [OpenSea](https://opensea.io/collection/treasurefragments), [audited](https://github.com/AnotherWorldDAO/Game-Contracts/blob/21afd876d3ef30fec44120a9f140f296675f89fd/audits/AnotherWorldEtherAuthorityAuditReport.pdf)) - Treasure Fragments collection is Another World's official NFT (ERC-1155) collection on Optimism. Players _may_ receive airdrops from this collection when they acquire items in the game.
 
-- `GamePrize.sol` ([deployed on Optimism](https://optimistic.etherscan.io/address/0x0b69157f85fb767676428f0d32866ee2b53ffcc6), [deployed on ETH](https://etherscan.io/address/0x496e83e7a74561c26d5151c0fce2cc400e884e49)) These contracts drips ERC-20 tokens ($OP and $APE) during the gameplay. Check this Unreal Engine [sample project](https://github.com/AnotherWorldDAO/ue5-treasurehunt).
+- `GamePrize.sol` ([deployed on Optimism](https://optimistic.etherscan.io/address/0x0b69157f85fb767676428f0d32866ee2b53ffcc6), [deployed on ETH](https://etherscan.io/address/0x496e83e7a74561c26d5151c0fce2cc400e884e49)) These contracts drips ERC-20 tokens ($OP and $APE) during the gameplay. Check this Unreal Engine [sample project](https://github.com/AnotherWorldDAO/ue5-treasurehunt) for smart contract and back-end integration.
 
 - `BattleSettlementV2.sol` A series of battle settlement contracts deployed for [S1](https://anotherworld.gg/s1battles) and [ThankApe](https://anotherworld.gg/apebattles) Treasure Hunting battles.
 
