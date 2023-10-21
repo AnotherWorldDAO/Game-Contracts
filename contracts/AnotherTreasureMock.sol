@@ -7,7 +7,7 @@
 // This is Another Treasure NFT colelction (ERC-721A on OP mainnet) for unique ownership items such as keys, deeds, ads...
 //
 
-pragma solidity 0.8.17;
+pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";

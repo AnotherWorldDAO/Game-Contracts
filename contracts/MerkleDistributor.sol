@@ -5,7 +5,7 @@
 // distribute ERC-20 tokens based on Merkle proofs
 //
 
-pragma solidity =0.8.17;
+pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import {IERC20, SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
