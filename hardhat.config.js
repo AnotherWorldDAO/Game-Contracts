@@ -39,12 +39,8 @@ module.exports = {
       url: `https://anotherworld-1681423864760549-1.jsonrpc.sp1.sagarpc.io`,
       //accounts:[`0x${process.env.AW_DEPLOYER}`, `0x${process.env.AW_OPERATOR}`]
     },
-    bellatrix: {
-      url: `https://staging-v3.skalenodes.com/v1/staging-fast-active-bellatrix`,
-      //accounts:[`0x${process.env.AW_DEPLOYER}`, `0x${process.env.AW_OPERATOR}`]
-    },
     nebula: {
-      url: `https://mainnet.skalenodes.com/v1/green-giddy-denebola`,
+      url: `https://testnet.skalenodes.com/v1/lanky-ill-funny-testnet`,
       //accounts:[`0x${process.env.AW_DEPLOYER}`, `0x${process.env.AW_OPERATOR}`]
     },
     hardhat: {
